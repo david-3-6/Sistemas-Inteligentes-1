@@ -3,6 +3,7 @@ import java.util.Random;
 public class LabAzar {
     private static final int FILAS=60;
     private static final int COLUMNAS=80;
+    private static final double OBSPORCENT=0.3;
     private char[][] Lab;
     
     public LabAzar () {
@@ -10,6 +11,7 @@ public class LabAzar {
         Random rand = new Random();
         inicializacion();
         inicioFinal();
+        obstaculos();
     }
 
     public void mostrar (){
@@ -49,6 +51,22 @@ public class LabAzar {
             filant=randfil;
             colant=randcol;
         }
+    }
+    private void obstaculos(){
+        double aprox=FILAS*COLUMNAS*OBSPORCENT;
+        int cantObs= (int) aprox;
+        int cont=0;
+        Random fil = new Random();
+        Random col = new Random();
+        while (cont<=cantObs){
+            int randfil=fil.nextInt(FILAS);
+            int randcol=col.nextInt(COLUMNAS);
+            if(Lab[randfil][randcol]==' '){
+                Lab[randfil][randcol]='*';
+                cont++;
+            }
+        }
+
     }
 
 }
