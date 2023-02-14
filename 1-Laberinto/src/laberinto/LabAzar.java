@@ -8,7 +8,7 @@ public class LabAzar {
     
     public LabAzar () {
         Lab = new  char[FILAS][COLUMNAS];
-        Random rand = new Random();
+        
         inicializacion();
         inicioFinal();
         obstaculos();
