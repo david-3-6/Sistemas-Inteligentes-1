@@ -5,6 +5,8 @@ public class LabAzar {
     private static final int COLUMNAS=80;
     private static final double OBSPORCENT=0.3;
     private char[][] Lab;
+    public int[] Inicial= new int[2];
+    public int[] Fin= new int[2];
     
     public LabAzar () {
         Lab = new  char[FILAS][COLUMNAS];
@@ -41,11 +43,15 @@ public class LabAzar {
             int randcol=col.nextInt(COLUMNAS);
             if (cont==0){
                 Lab[randfil][randcol]='I';
+                Inicial[0]=randfil;
+                Inicial[1]=randcol;
                 cont++;
             }else{
                 if(!(randfil==filant && randcol==colant)){
                     cont++;
                     Lab[randfil][randcol]='G';
+                    Fin[0]=randfil;
+                    Fin[1]=randcol;
                 }
             }
             filant=randfil;
