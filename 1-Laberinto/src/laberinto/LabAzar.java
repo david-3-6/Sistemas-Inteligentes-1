@@ -1,8 +1,8 @@
 package laberinto;
 import java.util.Random;
 public class LabAzar {
-    protected static final int FILAS=60;
-    protected static final int COLUMNAS=80;
+    protected  final int FILAS=60;
+    protected  final int COLUMNAS=80;
     private static final double OBSPORCENT=0.3;
     protected char[][] Lab;
     public int[] Inicial= new int[2];

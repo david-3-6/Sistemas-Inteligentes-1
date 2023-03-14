@@ -1,6 +1,5 @@
 package laberinto;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class A {
 
@@ -23,8 +22,9 @@ public class A {
     		closedSet.add(nodoActual);
     		openSet.remove(nodoActual);
     		nodoActual=elegirNuevoActual();
-    		laberinto.Lab[nodoActual.getX()][nodoActual.getY()]='+';
-    		laberinto.mostrar();
+    		/*laberinto.Lab[nodoActual.getX()][nodoActual.getY()]='+';
+			System.out.println("\n \n \n \n \n ");
+    		laberinto.mostrar();*/
     		
     	}
     	
