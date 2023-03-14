@@ -22,6 +22,9 @@ public class A {
     		closedSet.add(nodoActual);
     		openSet.remove(nodoActual);
     		nodoActual=elegirNuevoActual();
+			if(openSet.size()<=0){
+				throw new RuntimeException("No hay camino");
+			}
     		/*laberinto.Lab[nodoActual.getX()][nodoActual.getY()]='+';
 			System.out.println("\n \n \n \n \n ");
     		laberinto.mostrar();*/
