@@ -1,10 +1,10 @@
 package laberinto;
 import java.util.Random;
 public class LabAzar {
-    private static final int FILAS=60;
-    private static final int COLUMNAS=80;
+    protected static final int FILAS=60;
+    protected static final int COLUMNAS=80;
     private static final double OBSPORCENT=0.3;
-    private char[][] Lab;
+    protected char[][] Lab;
     public int[] Inicial= new int[2];
     public int[] Fin= new int[2];
     
