@@ -68,7 +68,7 @@ public class LabAzar {
             int randfil=fil.nextInt(FILAS);
             int randcol=col.nextInt(COLUMNAS);
             if(Lab[randfil][randcol]==' '){
-                Lab[randfil][randcol]='*';
+                Lab[randfil][randcol]='\u2588';
                 cont++;
             }
         }
