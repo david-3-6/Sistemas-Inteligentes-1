@@ -26,7 +26,9 @@ public class A {
     	int X=n.getX();
     	int Y=n.getY();
     	for(int i=0; i<4;i++) {
-    		
+    		switch (i) {
+    			case 0:
+    		}
     	}
     }
     
