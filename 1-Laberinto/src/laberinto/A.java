@@ -17,14 +17,19 @@ public class A {
     public void camino () {
     	Nodo nodoActual=openSet.get(0);
     	int iter=1;
-    	while((openSet.size()>0) && (nodoActual.getX()!=laberinto.Fin[0] && nodoActual.getY()!=laberinto.Fin[1])) {
+    	while((openSet.size()>0) && (nodoActual.getX()!=laberinto.Fin[0] || nodoActual.getY()!=laberinto.Fin[1])) {
     		nuevosNodos(nodoActual, iter);
-    		iter++;
+    		
     		closedSet.add(nodoActual);
     		openSet.remove(nodoActual);
     		nodoActual=elegirNuevoActual();
+    		laberinto.Lab[nodoActual.getX()][nodoActual.getY()]='+';
+    		laberinto.mostrar();
+    		
     	}
-    	colorear(nodoActual);
+    	
+    	System.out.println("\n \n \n \n \n ");
+    	colorear(nodoActual.n);
 
     }
     private Nodo elegirNuevoActual() {
@@ -87,7 +92,7 @@ public class A {
     	return pos;
     }
     public void colorear(Nodo nodito) {
-    	while(nodito.getX()!=laberinto.Inicial[0] && nodito.getY()!=laberinto.Inicial[1]) {
+    	while(nodito.n!=null) {
     		laberinto.Lab[nodito.getX()][nodito.getY()]='+';
     		nodito=nodito.n;
     	}
