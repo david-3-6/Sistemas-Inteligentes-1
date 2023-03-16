@@ -1,8 +1,10 @@
 package laberinto;
 import java.util.Random;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 
 public class LabAzar {
@@ -39,23 +41,44 @@ public class LabAzar {
             System.out.println("");
         }
     }
-    public void mostrarSalida(){
-        System.out.println("Creando archivo salida.txt");
-        File archivo=new File("salida.txt");
-        try{
-            FileWriter escritor=new FileWriter(archivo, StandardCharsets.UTF_8);
-            for (int f=0; f<FILAS; f++){
-                for (int c=0; c<COLUMNAS; c++){
-                    escritor.write(Lab[f][c]);
+    public void mostrarSalida(boolean nuevo){
+        if(nuevo){
+            File archivo=new File("salida.txt");
+            System.out.println("Creando archivo salida.txt");
+            
+            try{
+                FileWriter escritor=new FileWriter(archivo, StandardCharsets.UTF_8);
+                escritor.write("Laberinto sin solucion:\n");
+                for (int f=0; f<FILAS; f++){
+                    for (int c=0; c<COLUMNAS; c++){
+                        escritor.write(Lab[f][c]);
+                    }
+                    escritor.write("\n");
                 }
-                escritor.write("\n");
+                escritor.write("\n\n\n\n\n\n Laberinto con solucion:\n");
+                escritor.close();
+            }catch (IOException e){
+                System.out.println("Error en escritura del resultado");
             }
-            escritor.close();
-        }catch (IOException e){
-            System.out.println("Error en escritura del resultado");
+            System.out.println("Resultado escrito en salida.txt con exito");
+        }else{
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream("salida.txt", true);
+                OutputStreamWriter escritor = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);
+    
+                for (int f=0; f<FILAS; f++){
+                    for (int c=0; c<COLUMNAS; c++){
+                        escritor.write(Lab[f][c]);
+                    }
+                    escritor.write("\n");
+                }
+                escritor.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        System.out.println("Resultado escrito en salida.txt con exito");
-    }
+        
+    }   
     private void inicializacion (){
         for (int f=0; f<FILAS; f++){
             for (int c=0; c<COLUMNAS; c++){
