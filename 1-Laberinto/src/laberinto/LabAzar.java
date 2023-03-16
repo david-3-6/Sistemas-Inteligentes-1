@@ -3,7 +3,7 @@ import java.util.Random;
 public class LabAzar {
     protected  final int FILAS=60;
     protected  final int COLUMNAS=80;
-    private static final double OBSPORCENT=0.3;
+    private static final double OBSPORCENT=0.30;
     protected char[][] Lab;
     public int[] Inicial= new int[2];
     public int[] Fin= new int[2];
@@ -15,7 +15,17 @@ public class LabAzar {
         inicioFinal();
         obstaculos();
     }
-
+    public LabAzar(int x1, int y1, int x2, int y2){
+        Inicial[0]=x1;
+        Inicial[1]=y1;
+        Fin[0]=x2;
+        Fin[1]=y2;
+        Lab = new  char[FILAS][COLUMNAS];
+        inicializacion();
+        Lab[x1][y1]='I';
+        Lab[x2][y2]= 'G';
+        obstaculos();
+    }
     public void mostrar (){
         for (int f=0; f<FILAS; f++){
             for (int c=0; c<COLUMNAS; c++){
