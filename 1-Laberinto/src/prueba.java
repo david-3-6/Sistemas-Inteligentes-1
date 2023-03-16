@@ -6,7 +6,7 @@ public class prueba {
             
             A generar=new A(laberintox);
             generar.camino();
-            laberintox.mostrar();
+            laberintox.mostrarSalida();
 
         
         

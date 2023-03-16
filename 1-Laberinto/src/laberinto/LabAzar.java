@@ -1,5 +1,10 @@
 package laberinto;
 import java.util.Random;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 public class LabAzar {
     protected  final int FILAS=60;
     protected  final int COLUMNAS=80;
@@ -33,6 +38,23 @@ public class LabAzar {
             }
             System.out.println("");
         }
+    }
+    public void mostrarSalida(){
+        System.out.println("Creando archivo salida.txt");
+        File archivo=new File("salida.txt");
+        try{
+            FileWriter escritor=new FileWriter(archivo, StandardCharsets.UTF_8);
+            for (int f=0; f<FILAS; f++){
+                for (int c=0; c<COLUMNAS; c++){
+                    escritor.write(Lab[f][c]);
+                }
+                escritor.write("\n");
+            }
+            escritor.close();
+        }catch (IOException e){
+            System.out.println("Error en escritura del resultado");
+        }
+        System.out.println("Resultado escrito en salida.txt con exito");
     }
     private void inicializacion (){
         for (int f=0; f<FILAS; f++){
