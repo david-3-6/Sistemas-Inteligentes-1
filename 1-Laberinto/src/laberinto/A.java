@@ -1,3 +1,5 @@
+//El tamaño del closed set no aumenta, es decir, no prueba nuevos puntos
+
 package laberinto;
 import java.util.ArrayList;
 
@@ -12,22 +14,28 @@ public class A {
     	laberinto=laber;
         openSet.add(new Nodo(laber.Inicial[0],laber.Inicial[1],laber.Fin[0],laber.Fin[1],null));
     }
-    
+    int i=0;
     public void camino () {
     	Nodo nodoActual=openSet.get(0);
-    	int iter=1;
     	while((openSet.size()>0) && (nodoActual.getX()!=laberinto.Fin[0] || nodoActual.getY()!=laberinto.Fin[1])) {
-    		nuevosNodos(nodoActual, iter);
-    		closedSet.add(nodoActual);
-    		openSet.remove(nodoActual);
+			
+			nuevosNodos(nodoActual);
+			anyadir(nodoActual); //Añade a cerrados
+			//closedSet.add(nodoActual);
+			quitar(nodoActual); //Quitar todos los nodos actuales con esa coordenada de openSet
+			
 			if(openSet.size()<=0){
 				throw new RuntimeException("No hay camino");
 			}else{
 				nodoActual=elegirNuevoActual();
 			}
-    		/*laberinto.Lab[nodoActual.getX()][nodoActual.getY()]='+';
+			i++;
+			System.out.println("paso"+i+" TamOpen"+openSet.size()+"TamClose:"+closedSet.size());
+			
+    		//laberinto.Lab[nodoActual.getX()][nodoActual.getY()]='+';
 			System.out.println("\n \n \n \n \n ");
-    		laberinto.mostrar();*/
+			
+    		//laberinto.mostrar();
     		
     	}
     	
@@ -35,6 +43,27 @@ public class A {
     	colorear(nodoActual.n);
 
     }
+	private void quitar(Nodo nodo) {
+		int X=nodo.getX(), Y=nodo.getY();
+		for(int i=0; i<openSet.size();i++){
+			if(openSet.get(i).getX()==X && Y==openSet.get(i).getY()){
+				openSet.remove(i);
+			}
+			i++;
+		}
+	}
+	private void anyadir(Nodo nodo){
+		int X=nodo.getX(), Y=nodo.getY();
+		int pos=-1;
+		for(int i=0; i<closedSet.size() && pos<0;i++){
+			if(X==closedSet.get(i).getX() && Y==closedSet.get(i).getY()){
+				pos=i;
+			}
+		}
+		if(pos<0){
+			closedSet.add(nodo);
+		}
+	} 
     private Nodo elegirNuevoActual() {
     	Nodo AC=openSet.get(0);
     	int distmin=openSet.get(0).getDist();
@@ -46,7 +75,7 @@ public class A {
     	}
     	return AC;
     }
-    private void nuevosNodos (Nodo n, int iter) {
+    private void nuevosNodos (Nodo n) {
     	int X=n.getX();
     	int Y=n.getY();
     	for(int i=0; i<4;i++) {
@@ -55,28 +84,24 @@ public class A {
     				
     				if(X-1>=0 && laberinto.Lab[X-1][Y]!='\u2588' && buscar(X-1,Y)<0) {
     					Nodo nodo=new Nodo(X-1, Y, laberinto.Fin[0],laberinto.Fin[1],n);
-    					nodo.modDist(iter);
     					openSet.add(nodo);
     				}
     				break;
     			case 1:
     				if(X+1<laberinto.FILAS && laberinto.Lab[X+1][Y]!='\u2588' && buscar(X+1,Y)<0) {
     					Nodo nodo=new Nodo(X+1, Y, laberinto.Fin[0],laberinto.Fin[1],n);
-    					nodo.modDist(iter);
     					openSet.add(nodo);
     				}
     			break;
     			case 2:
     				if(Y-1>=0 && laberinto.Lab[X][Y-1]!='\u2588' && buscar(X,Y-1)<0) {
     					Nodo nodo=new Nodo(X, Y-1, laberinto.Fin[0],laberinto.Fin[1],n);
-    					nodo.modDist(iter);
     					openSet.add(nodo);
     				}
     			break;
     			case 3:
     				if(Y+1<laberinto.COLUMNAS && laberinto.Lab[X][Y+1]!='\u2588' && buscar(X,Y+1)<0) {
     					Nodo nodo=new Nodo(X, Y+1, laberinto.Fin[0],laberinto.Fin[1],n);
-    					nodo.modDist(iter);
     					openSet.add(nodo);
     				}
     			break;
