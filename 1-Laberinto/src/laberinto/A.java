@@ -59,17 +59,7 @@ public class A {
 							distmin=openSet.get(pos).getDist();
 						}
 						Nodo nodo=new Nodo(X-1, Y, laberinto.Fin[0],laberinto.Fin[1],n);
-						if(pos<0 || nodo.getDist()<distmin){
-							if(pos<0){
-								openSet.add(nodo);
-								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
-							}else{
-								openSet.get(pos).modDist(nodo.getDist());
-								openSet.get(pos).modN(nodo.getN());
-								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
-							}
-    						
-						}
+						rutina(pos, distmin, nodo);
     				}
     				break;
     			case 1:
@@ -80,16 +70,7 @@ public class A {
 							distmin=openSet.get(pos).getDist();
 						}
 						Nodo nodo=new Nodo(X+1, Y, laberinto.Fin[0],laberinto.Fin[1],n);
-						if(pos<0 || nodo.getDist()<distmin){
-							if(pos<0){
-								openSet.add(nodo);
-								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
-							}else{
-								openSet.get(pos).modDist(nodo.getDist());
-								openSet.get(pos).modN(nodo.getN());
-								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
-							}
-						}
+						rutina(pos, distmin, nodo);
 					}
     			break;
     			case 2:
@@ -100,16 +81,7 @@ public class A {
 							distmin=openSet.get(pos).getDist();
 						}
 						Nodo nodo=new Nodo(X, Y-1, laberinto.Fin[0],laberinto.Fin[1],n);
-						if(pos<0 || nodo.getDist()<distmin){
-							if(pos<0){
-								openSet.add(nodo);
-								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
-							}else{
-								openSet.get(pos).modDist(nodo.getDist());
-								openSet.get(pos).modN(nodo.getN());
-								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
-							}
-						}
+						rutina(pos, distmin, nodo);
 					}
     			break;
     			case 3:
@@ -120,16 +92,7 @@ public class A {
 							distmin=openSet.get(pos).getDist();
 						}
 						Nodo nodo=new Nodo(X, Y+1, laberinto.Fin[0],laberinto.Fin[1],n);
-						if(pos<0 || nodo.getDist()<distmin){
-							if(pos<0){
-								openSet.add(nodo);
-								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
-							}else{
-								openSet.get(pos).modDist(nodo.getDist());
-								openSet.get(pos).modN(nodo.getN());
-								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
-							}
-						}
+						rutina(pos, distmin, nodo);
 					}
     			break;
     			default: throw new RuntimeException("Error de acceso");
@@ -137,6 +100,18 @@ public class A {
 			
     	}
     }
+	private void rutina (int pos, int distmin, Nodo nodo ){
+		if(pos<0 || nodo.getDist()<distmin){
+			if(pos<0){
+				openSet.add(nodo);
+				//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+			}else{
+				openSet.get(pos).modDist(nodo.getDist());
+				openSet.get(pos).modN(nodo.getN());
+				//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+			}
+		}
+	}
     /*private int calcDistMin(int x, int y, int pos) {
 		int distmin=openSet.get(pos).getDist();
 		for(int i=0; i<openSet.size();i++){
