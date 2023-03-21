@@ -60,7 +60,6 @@ public class LabAzar {
             }catch (IOException e){
                 System.out.println("Error en escritura del resultado");
             }
-            System.out.println("Resultado escrito en salida.txt con exito");
         }else{
             try {
                 FileOutputStream fileOutputStream = new FileOutputStream("salida.txt", true);
@@ -73,6 +72,7 @@ public class LabAzar {
                     escritor.write("\n");
                 }
                 escritor.close();
+                System.out.println("Resultado escrito en salida.txt con exito");
             } catch (IOException e) {
                 e.printStackTrace();
             }
