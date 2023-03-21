@@ -15,6 +15,7 @@ public class Nodo {
     public Nodo(int X1, int Y1, int X2, int Y2, Nodo nodo) {
     	this(X1,Y1,X2,Y2);
     	n=nodo;
+        addDist();
     }
     public int getX() {
     	return CorX;
@@ -25,8 +26,27 @@ public class Nodo {
     public int getDist() {
     	return Dist;
     }
-    public void modDist(int n) {
-    	Dist+=n;
+    public void modDist(int nuevaDist){
+        Dist=nuevaDist;
+    }
+    public void modN(Nodo nodo){
+        n=nodo;
+    }
+    public Nodo getN(){
+        return n;
+    }
+    public void modY(int y){
+        CorY=y;
+    }
+    private void addDist(){
+        int distanciaInicio=0;
+        Nodo nodox=n;
+        while(nodox!=null){
+            nodox=nodox.n;
+            distanciaInicio++;
+        }
+        //System.out.println("Encontrado: "+Integer.toString(distanciaInicio+Dist));
+        Dist+=distanciaInicio;
     }
 
 

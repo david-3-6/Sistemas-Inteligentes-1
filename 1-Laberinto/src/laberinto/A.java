@@ -25,9 +25,9 @@ public class A {
 			}else{
 				nodoActual=elegirNuevoActual();
 			}
-    		/*laberinto.Lab[nodoActual.getX()][nodoActual.getY()]='+';
-			System.out.println("\n \n \n \n \n ");
-    		laberinto.mostrar();*/
+    		//laberinto.Lab[nodoActual.getX()][nodoActual.getY()]='O';
+			//System.out.println("\n \n \n \n \n ");
+    		//laberinto.mostrar();
     		
     	}
     	
@@ -52,39 +52,103 @@ public class A {
     	for(int i=0; i<4;i++) {
     		switch (i) {
     			case 0:
-    				
-    				if(X-1>=0 && laberinto.Lab[X-1][Y]!='\u2588' && buscar(X-1,Y)<0) {
-    					Nodo nodo=new Nodo(X-1, Y, laberinto.Fin[0],laberinto.Fin[1],n);
-    					nodo.modDist(iter);
-    					openSet.add(nodo);
+    				if(X-1>=0 && laberinto.Lab[X-1][Y]!='\u2588' && buscarCerrado(X-1,Y)<0) {
+						int pos=buscarAbierto(X-1, Y);
+						int distmin=0;
+						if(pos>=0){
+							distmin=openSet.get(pos).getDist();
+						}
+						Nodo nodo=new Nodo(X-1, Y, laberinto.Fin[0],laberinto.Fin[1],n);
+						if(pos<0 || nodo.getDist()<distmin){
+							if(pos<0){
+								openSet.add(nodo);
+								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+							}else{
+								openSet.get(pos).modDist(nodo.getDist());
+								openSet.get(pos).modN(nodo.getN());
+								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+							}
+    						
+						}
     				}
     				break;
     			case 1:
-    				if(X+1<laberinto.FILAS && laberinto.Lab[X+1][Y]!='\u2588' && buscar(X+1,Y)<0) {
-    					Nodo nodo=new Nodo(X+1, Y, laberinto.Fin[0],laberinto.Fin[1],n);
-    					nodo.modDist(iter);
-    					openSet.add(nodo);
-    				}
+					if(X+1<laberinto.FILAS && laberinto.Lab[X+1][Y]!='\u2588' && buscarCerrado(X+1,Y)<0) {
+						int pos=buscarAbierto(X+1, Y);
+						int distmin=0;
+						if(pos>=0){
+							distmin=openSet.get(pos).getDist();
+						}
+						Nodo nodo=new Nodo(X+1, Y, laberinto.Fin[0],laberinto.Fin[1],n);
+						if(pos<0 || nodo.getDist()<distmin){
+							if(pos<0){
+								openSet.add(nodo);
+								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+							}else{
+								openSet.get(pos).modDist(nodo.getDist());
+								openSet.get(pos).modN(nodo.getN());
+								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+							}
+						}
+					}
     			break;
     			case 2:
-    				if(Y-1>=0 && laberinto.Lab[X][Y-1]!='\u2588' && buscar(X,Y-1)<0) {
-    					Nodo nodo=new Nodo(X, Y-1, laberinto.Fin[0],laberinto.Fin[1],n);
-    					nodo.modDist(iter);
-    					openSet.add(nodo);
-    				}
+					if(Y-1>=0 && laberinto.Lab[X][Y-1]!='\u2588' && buscarCerrado(X,Y-1)<0) {
+						int pos=buscarAbierto(X, Y-1);
+						int distmin=0;
+						if(pos>=0){
+							distmin=openSet.get(pos).getDist();
+						}
+						Nodo nodo=new Nodo(X, Y-1, laberinto.Fin[0],laberinto.Fin[1],n);
+						if(pos<0 || nodo.getDist()<distmin){
+							if(pos<0){
+								openSet.add(nodo);
+								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+							}else{
+								openSet.get(pos).modDist(nodo.getDist());
+								openSet.get(pos).modN(nodo.getN());
+								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+							}
+						}
+					}
     			break;
     			case 3:
-    				if(Y+1<laberinto.COLUMNAS && laberinto.Lab[X][Y+1]!='\u2588' && buscar(X,Y+1)<0) {
-    					Nodo nodo=new Nodo(X, Y+1, laberinto.Fin[0],laberinto.Fin[1],n);
-    					nodo.modDist(iter);
-    					openSet.add(nodo);
-    				}
+					if(Y+1<laberinto.COLUMNAS && laberinto.Lab[X][Y+1]!='\u2588' && buscarCerrado(X,Y+1)<0) {
+						int pos=buscarAbierto(X, Y+1);
+						int distmin=0;
+						if(pos>=0){
+							distmin=openSet.get(pos).getDist();
+						}
+						Nodo nodo=new Nodo(X, Y+1, laberinto.Fin[0],laberinto.Fin[1],n);
+						if(pos<0 || nodo.getDist()<distmin){
+							if(pos<0){
+								openSet.add(nodo);
+								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+							}else{
+								openSet.get(pos).modDist(nodo.getDist());
+								openSet.get(pos).modN(nodo.getN());
+								//laberinto.Lab[nodo.getX()][nodo.getY()]='X';
+							}
+						}
+					}
     			break;
     			default: throw new RuntimeException("Error de acceso");
     		}
+			
     	}
     }
-    private int buscar (int X, int Y) {
+    /*private int calcDistMin(int x, int y, int pos) {
+		int distmin=openSet.get(pos).getDist();
+		for(int i=0; i<openSet.size();i++){
+			if(openSet.get(i).getX()==x && openSet.get(i).getY()==y&&openSet.get(i).getDist()<distmin){
+				distmin=openSet.get(i).getDist();
+			}
+		}
+		return distmin;
+
+	}*/
+
+	private int buscarCerrado (int X, int Y) {
     	int pos=-1;
     	for(int i=0; i<closedSet.size() && pos<0;i++) {
     		if(closedSet.get(i).getX()==X && closedSet.get(i).getY()==Y) {
@@ -94,6 +158,16 @@ public class A {
     	
     	return pos;
     }
+	private int buscarAbierto(int X, int Y){
+		int pos=-1;
+    	for(int i=0; i<openSet.size() && pos<0;i++) {
+    		if(openSet.get(i).getX()==X && openSet.get(i).getY()==Y) {
+    			pos=i;
+    		}
+    	}
+    	
+    	return pos;
+	}
     public void colorear(Nodo nodito) {
     	while(nodito.n!=null) {
     		laberinto.Lab[nodito.getX()][nodito.getY()]='+';
