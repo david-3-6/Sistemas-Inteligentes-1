@@ -15,9 +15,8 @@ public class A {
     
     public void camino () {
     	Nodo nodoActual=openSet.get(0);
-    	int iter=1;
     	while((openSet.size()>0) && (nodoActual.getX()!=laberinto.Fin[0] || nodoActual.getY()!=laberinto.Fin[1])) {
-    		nuevosNodos(nodoActual, iter);
+    		nuevosNodos(nodoActual);
     		closedSet.add(nodoActual);
     		openSet.remove(nodoActual);
 			if(openSet.size()<=0){
@@ -46,7 +45,7 @@ public class A {
     	}
     	return AC;
     }
-    private void nuevosNodos (Nodo n, int iter) {
+    private void nuevosNodos (Nodo n) {
     	int X=n.getX();
     	int Y=n.getY();
     	for(int i=0; i<4;i++) {
