@@ -20,7 +20,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 // @formatter:on
-package com.qqwing;
+package sudok.com.qqwing;
 
 import java.util.ArrayList;
 import java.util.Arrays;

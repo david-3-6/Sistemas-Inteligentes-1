@@ -18,7 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 // @formatter:on
-package com.qqwing;
+package sudok.com.qqwing;
 
 /**
  * While solving the puzzle, log steps taken in a log item. This is useful for
