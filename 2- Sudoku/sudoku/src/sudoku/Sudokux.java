@@ -28,6 +28,9 @@ public class Sudokux {
 	public int[] getPuzzle() {
 		return puzzle;
 	}
+	public void setPuzzle(int[] sol) {
+		puzzle=sol;
+	}
 	
 	//cheat by creating absurdly simple sudoku, with a given number of holes per row
 	private int[] computePuzzleWithNHolesPerRow(int numHolesPerRow) {
