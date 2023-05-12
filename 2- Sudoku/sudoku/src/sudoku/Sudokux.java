@@ -25,6 +25,10 @@ public class Sudokux {
 		int []puzzle = qq.getPuzzle();
 		return puzzle;
 	}
+	public Sudokux() {
+		int[] puzz={9,4,3,0,0,1,6,7,0,2,1,0,8,0,0,9,3,4,8,0,0,3,9,4,2,1,0,0,0,8,1,7,5,0,6,2,7,0,2,0,4,3,1,0,9,1,0,6,0,2,8,0,5,7,5,2,1,4,8,0,0,0,3,6,0,4,0,0,9,5,2,1,3,7,0,5,1,2,8,0,0};
+		puzzle=puzz;
+	} 
 	public int[] getPuzzle() {
 		return puzzle;
 	}

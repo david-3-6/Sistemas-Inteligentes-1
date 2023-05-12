@@ -1,6 +1,7 @@
 package sudoku;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -140,8 +141,6 @@ public class Gen implements Comparable<Gen>{
 	}
 	public void refreshFitness(Sudokux sudo) {
 		int[] puzzle=toArray(sudo);
-		//sudo.setPuzzle(puzzle);
-		//System.out.print(sudo.toString());
 		fitness=comprobarColumnas(puzzle)+comprobarCasillas(puzzle);
 		
 	}
@@ -165,15 +164,15 @@ public class Gen implements Comparable<Gen>{
 	}
 	private int comprobarCasillas(int[] puzzle) {
 		int sol=0;
-		int desp=-1*Sudokux.getGridSize();
+		int desp=-Sudokux.getRowColSecSize()*Sudokux.getGridSize();
 		for(int i=0; i<Sudokux.getRowColSecSize()/Sudokux.getGridSize();i++) {
 			int lim=0;
-			desp+=Sudokux.getGridSize();
+			desp+=Sudokux.getRowColSecSize()*Sudokux.getGridSize();
 			for(int g=0; g<Sudokux.getRowColSecSize()/Sudokux.getGridSize();g++) {
 				lim+=Sudokux.getGridSize();
 				List<Integer> unicos=new ArrayList<>(), repetidos=new ArrayList<>();
-				for(int f=lim-Sudokux.getGridSize();f<lim;f+=Sudokux.getRowColSecSize()) {
-					for(int c=f+desp;c<lim;c++) {
+				for(int f=lim-Sudokux.getGridSize();f<Sudokux.getRowColSecSize()*Sudokux.getGridSize();f+=Sudokux.getRowColSecSize()) {
+					for(int c=f+desp;c<f+desp+Sudokux.getGridSize();c++) {
 						int num=puzzle[c];
 						if(unicos.indexOf(num)<0 && repetidos.indexOf(num)<0) unicos.add(num);
 						else if(unicos.indexOf(num)>=0 && repetidos.indexOf(num)<0) {
@@ -193,7 +192,7 @@ public class Gen implements Comparable<Gen>{
 		return fitness;
 	}
 	public int[] toArray(Sudokux sudo) {
-		int[] sol=sudo.getPuzzle();
+		int[] sol=Arrays.copyOf(sudo.getPuzzle(),Sudokux.getBoardSize());
 		List<List<Integer>> genAux=copyGen(gen);
 		for(int f=1;f<gen.size();f++) {
 			for(int c=0; c<gen.get(f).size();c++) {
