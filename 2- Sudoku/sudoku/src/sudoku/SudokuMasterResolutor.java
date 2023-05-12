@@ -1,5 +1,5 @@
 package sudoku;
-
+import java.util.Arrays;
 public class SudokuMasterResolutor {
 	
 	public static int[] resolverSudoku(Sudokux sudo, int poblacionInicial) {
@@ -10,35 +10,28 @@ public class SudokuMasterResolutor {
 		/*for(int i=0; i<poblacion.length;i++) { // ver poblacion inicial
 			System.out.println(poblacion[i].toString());
 		}*/
-		poblacion=Gen.crossover(poblacion);
-		/*System.out.println("____________________________________");
-		for(int i=0; i<poblacion.length;i++) { // ver poblacion cruzada
-			System.out.println(poblacion[i].toString());
-		}*/
-		poblacion=Gen.mutacion(poblacion);
-		/*System.out.println("____________________________________");
-		for(int i=0; i<poblacion.length;i++) { // ver poblacion cruzada
-			System.out.println(poblacion[i].toString());
-		}*/
-		
-		return genToArray(sudo,poblacion[0]);
-	}
-	private static int[] genToArray(Sudokux sudo, Gen gen) {
-		int[] sol=sudo.getPuzzle();
-		for(int f=1;f<gen.getGen().size();f++) {
-			for(int c=0; c<gen.getGen().get(f).size();c++) {
-				gen.getGen().get(0).add(gen.getGen().get(f).get(c));
-			}
+		while (poblacion[poblacion.length-1].getFitness()!=Sudokux.getBoardSize()*2) {
+			poblacion=Gen.crossover(poblacion);
+			/*System.out.println("____________________________________");
+			for(int i=0; i<poblacion.length;i++) { // ver poblacion cruzada
+				System.out.println(poblacion[i].toString());
+			}*/
+			poblacion=Gen.mutacion(poblacion);
+			/*System.out.println("____________________________________");
+			for(int i=0; i<poblacion.length;i++) { // ver poblacion cruzada
+				System.out.println(poblacion[i].toString());
+			}*/
+			determinarFitness(poblacion, sudo);
+			Arrays.sort(poblacion);
 		}
-		int f=0;
-		for(int i=0;i<sol.length;i++) {
-			if(sol[i]==0) {
-				sol[i]=gen.getGen().get(0).get(f);
-				f++;
-			}
-		}
-		return sol;
+		return poblacion[poblacion.length-1].toArray(sudo);
 	}
+	private static void determinarFitness(Gen[] poblacion, Sudokux sudo) {
+		for(Gen x:poblacion) {
+			x.refreshFitness(sudo);
+		}
+	}
+	
 
 	private static Gen[] generarPoblacionInicial(Gen inicial, int poblacionInicial) {
 		Gen[] sol=new Gen[poblacionInicial];

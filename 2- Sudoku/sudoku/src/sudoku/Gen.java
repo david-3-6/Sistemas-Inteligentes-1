@@ -138,5 +138,76 @@ public class Gen implements Comparable<Gen>{
 	public int compareTo(Gen o) {
 		return ((Integer)fitness).compareTo(o.fitness);
 	}
+	public void refreshFitness(Sudokux sudo) {
+		int[] puzzle=toArray(sudo);
+		//sudo.setPuzzle(puzzle);
+		//System.out.print(sudo.toString());
+		fitness=comprobarColumnas(puzzle)+comprobarCasillas(puzzle);
+		
+	}
+	private int comprobarColumnas(int[] puzzle) {
+		int sol=0;
+		for(int f=0; f<Sudokux.getRowColSecSize();f++) {
+			List<Integer> unicos=new ArrayList<>(), repetidos=new ArrayList<>();
+			for(int c=f; c<Sudokux.getBoardSize();c+=Sudokux.getRowColSecSize()) {
+				int num=puzzle[c];
+				if(unicos.indexOf(num)<0 && repetidos.indexOf(num)<0) unicos.add(num);
+				else if(unicos.indexOf(num)>=0 && repetidos.indexOf(num)<0) {
+					repetidos.add(num);
+					unicos.remove(unicos.indexOf(num));
+				}else if(unicos.indexOf(num)>=0 && repetidos.indexOf(num)>=0) {
+					throw new RuntimeException("Numero en conjunto de unicos y repetidos");
+				}
+			}
+			sol+=unicos.size();
+		}
+		return sol;
+	}
+	private int comprobarCasillas(int[] puzzle) {
+		int sol=0;
+		int desp=-1*Sudokux.getGridSize();
+		for(int i=0; i<Sudokux.getRowColSecSize()/Sudokux.getGridSize();i++) {
+			int lim=0;
+			desp+=Sudokux.getGridSize();
+			for(int g=0; g<Sudokux.getRowColSecSize()/Sudokux.getGridSize();g++) {
+				lim+=Sudokux.getGridSize();
+				List<Integer> unicos=new ArrayList<>(), repetidos=new ArrayList<>();
+				for(int f=lim-Sudokux.getGridSize();f<lim;f+=Sudokux.getRowColSecSize()) {
+					for(int c=f+desp;c<lim;c++) {
+						int num=puzzle[c];
+						if(unicos.indexOf(num)<0 && repetidos.indexOf(num)<0) unicos.add(num);
+						else if(unicos.indexOf(num)>=0 && repetidos.indexOf(num)<0) {
+							repetidos.add(num);
+							unicos.remove(unicos.indexOf(num));
+						}else if(unicos.indexOf(num)>=0 && repetidos.indexOf(num)>=0) {
+							throw new RuntimeException("Numero en conjunto de unicos y repetidos");
+						}
+					}
+				}
+				sol+=unicos.size();
+			}
+		}
+		return sol;
+	}
+	public int getFitness() {
+		return fitness;
+	}
+	public int[] toArray(Sudokux sudo) {
+		int[] sol=sudo.getPuzzle();
+		List<List<Integer>> genAux=copyGen(gen);
+		for(int f=1;f<gen.size();f++) {
+			for(int c=0; c<gen.get(f).size();c++) {
+				genAux.get(0).add(genAux.get(f).get(c));
+			}
+		}
+		int f=0;
+		for(int i=0;i<sol.length;i++) {
+			if(sol[i]==0) {
+				sol[i]=genAux.get(0).get(f);
+				f++;
+			}
+		}
+		return sol;
+	}
 	
 }
