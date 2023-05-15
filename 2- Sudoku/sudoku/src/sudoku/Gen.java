@@ -101,18 +101,22 @@ public class Gen implements Comparable<Gen>{
 	public int hashCode() {
 		return gen.hashCode();
 	}
-	public static Gen[] crossover(Gen[] individuos) {
+	public static Gen[] crossover(Gen[] individuos, int probabilidad) {
 		int nCruces=individuos[0].getGen().size()-1;
 		if(nCruces>0) {
 			for(int i=0; i<individuos.length;i=i+2) {
 				int corte=rand.nextInt(0,nCruces);
 				List<List<Integer>> aux=copyGen(individuos[i].gen.subList(corte+1, nCruces+1));
-				for(int f=corte+1;f<nCruces+1;f++) individuos[i].gen.set(f, individuos[i+1].gen.get(f));
-				for(int f=corte+1, c=0;f<nCruces+1;f++,c++) individuos[i+1].gen.set(f, aux.get(c));
+				if(Math.random()<=probabilidad)
+					for(int f=corte+1;f<nCruces+1;f++) individuos[i].gen.set(f, individuos[i+1].gen.get(f));
+					for(int f=corte+1, c=0;f<nCruces+1;f++,c++) individuos[i+1].gen.set(f, aux.get(c));
 			}
 		}
 		return individuos;
 	}
+
+
+
 	private static List<List<Integer>> copyGen(List<List<Integer>> other){
 		List<List<Integer>> sol=new ArrayList<>();
 		for(int f=0; f<other.size();f++) {
@@ -123,15 +127,18 @@ public class Gen implements Comparable<Gen>{
 		}
 		return sol;
 	}
-	public static Gen[] mutacion(Gen[] poblacion) {
+	public static Gen[] mutacion(Gen[] poblacion, int probabilidadMutacion) {
 		for(int i=0; i<poblacion.length;i++) {
 			int eleccionFila=rand.nextInt(0,poblacion[0].getGen().size());
 			int intercambio1=rand.nextInt(0,poblacion[i].getGen().get(eleccionFila).size());
 			int intercambio2=intercambio1;
 			while(intercambio1==intercambio2) intercambio2=rand.nextInt(0,poblacion[i].getGen().get(eleccionFila).size());
-			int aux=poblacion[i].getGen().get(eleccionFila).get(intercambio1);
-			poblacion[i].getGen().get(eleccionFila).set(intercambio1,poblacion[i].getGen().get(eleccionFila).get(intercambio2));
-			poblacion[i].getGen().get(eleccionFila).set(intercambio2,aux);
+			if(rand.nextDouble(0,1)<=((double)probabilidadMutacion/100.0)) {
+				int aux=poblacion[i].getGen().get(eleccionFila).get(intercambio1);
+				poblacion[i].getGen().get(eleccionFila).set(intercambio1,poblacion[i].getGen().get(eleccionFila).get(intercambio2));
+				poblacion[i].getGen().get(eleccionFila).set(intercambio2,aux);
+			}
+			
 		}
 		return poblacion;
 	}

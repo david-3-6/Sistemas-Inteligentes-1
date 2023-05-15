@@ -2,7 +2,7 @@ package sudoku;
 import java.util.Arrays;
 public class SudokuMasterResolutor {
 	
-	public static int[] resolverSudoku(Sudokux sudo, int poblacionInicial) {
+	public static int[] resolverSudoku(Sudokux sudo, int poblacionInicial, int probabilidadCruce, int probabilidadMutacion, double constanteEscalado) {
 		//VAMOS A ASEGURAR QUE SE CUMPLE LA RESTRICCIONES DE FILA, ES DECIR
 		//TODAS LAS FILAS TIENEN NUMEROS DIFERENTES
 		Gen inicial=new Gen(sudo);
@@ -10,18 +10,21 @@ public class SudokuMasterResolutor {
 		/*for(int i=0; i<poblacion.length;i++) { // ver poblacion inicial
 			System.out.println(poblacion[i].toString());
 		}*/
+		determinarFitness(poblacion, sudo);
+		Arrays.sort(poblacion);
 		while (poblacion[poblacion.length-1].getFitness()!=Sudokux.getBoardSize()*2) {
-			poblacion=Gen.crossover(poblacion);
+			poblacion=Gen.crossover(poblacion, probabilidadCruce);
 			/*System.out.println("____________________________________");
 			for(int i=0; i<poblacion.length;i++) { // ver poblacion cruzada
 				System.out.println(poblacion[i].toString());
 			}*/
-			poblacion=Gen.mutacion(poblacion);
+			poblacion=Gen.mutacion(poblacion, probabilidadMutacion);
 			/*System.out.println("____________________________________");
 			for(int i=0; i<poblacion.length;i++) { // ver poblacion cruzada
 				System.out.println(poblacion[i].toString());
 			}*/
 			determinarFitness(poblacion, sudo);
+			System.out.println(poblacion[poblacion.length-1].getFitness());
 			Arrays.sort(poblacion);
 		}
 		return poblacion[poblacion.length-1].toArray(sudo);
