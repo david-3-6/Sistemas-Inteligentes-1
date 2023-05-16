@@ -103,13 +103,19 @@ public class Gen implements Comparable<Gen>{
 	}
 	public static Gen[] crossover(Gen[] individuos, int probabilidad) {
 		int nCruces=individuos[0].getGen().size()-1;
+		List<Integer> usados=new ArrayList<>();
 		if(nCruces>0) {
+			reescalarFitness(individuos);
 			for(int i=0; i<individuos.length;i=i+2) {
+				int primero=elegirAzar(individuos, usados);
+				int segundo=elegirAzar(individuos,usados);
 				int corte=rand.nextInt(0,nCruces);
-				List<List<Integer>> aux=copyGen(individuos[i].gen.subList(corte+1, nCruces+1));
-				if(Math.random()<=probabilidad)
-					for(int f=corte+1;f<nCruces+1;f++) individuos[i].gen.set(f, individuos[i+1].gen.get(f));
-					for(int f=corte+1, c=0;f<nCruces+1;f++,c++) individuos[i+1].gen.set(f, aux.get(c));
+				
+				if(Math.random()<=((double)probabilidad/100.0)) {
+					List<List<Integer>> aux=copyGen(individuos[primero].gen.subList(corte+1, nCruces+1));
+					for(int f=corte+1;f<nCruces+1;f++) individuos[primero].gen.set(f, individuos[segundo].gen.get(f));
+					for(int f=corte+1, c=0;f<nCruces+1;f++,c++) individuos[segundo].gen.set(f, aux.get(c));
+				}
 			}
 		}
 		return individuos;
@@ -117,6 +123,46 @@ public class Gen implements Comparable<Gen>{
 
 
 
+	private static void reescalarFitness(Gen[] individuos) {
+		for(int i=0; individuos.length>i;i++) individuos[i].fitness=(int)Math.exp(0.07*individuos[i].fitness);
+		
+		
+	}
+	private static int elegirAzar(Gen[] individuos, List<Integer> usados) {
+		int pos=-1;
+		int sumaFitness=0;
+		int nIndividuos=0;
+		for(int i=0; i<individuos.length;i++) {
+			if(!usados.contains(i)) {
+				sumaFitness+=individuos[i].fitness;
+				nIndividuos++;
+			}
+		}
+		int i=0, real=0;
+		int sumaSel=0;
+		int fitnessAzar=rand.nextInt(0, sumaFitness);
+		boolean primero=true;
+		
+		while(real<nIndividuos && pos<0) {
+			if(!usados.contains(i)) {
+				if(primero) {
+					sumaSel+=  individuos[i].fitness-1;
+					primero=false;
+				}else {
+					sumaSel+= individuos[i].fitness;
+				}
+				if(sumaSel>=fitnessAzar) {
+					pos=i;
+					usados.add(i);
+				}
+				real++;
+				i++;
+			}else {
+				i++;
+			}
+		}
+		return pos;
+	}
 	private static List<List<Integer>> copyGen(List<List<Integer>> other){
 		List<List<Integer>> sol=new ArrayList<>();
 		for(int f=0; f<other.size();f++) {
